@@ -12,6 +12,7 @@ var ref = db.ref("Employee");
 console.log("connected")
 
 employeeRoute.route('/create').post((req, res) => {
+    console.log("here")
 
     var name = req.body.name
     var phone = req.body.phone
@@ -29,16 +30,18 @@ employeeRoute.route('/create').post((req, res) => {
             if (error) {
                 res.send("Data could not be saved." + error);
             } else {
+                console.log("--------saved")
                 res.send("Data saved successfully.");
             }
         });
     }else{
+        console.log("not valid")
         res.send("Pls pass all details")
     }
 });
 employeeRoute.route('/').get((req, res) => {
     ref.once("value", function(snapshot) {
-        res.send(snapshot.val());
+        res.send(snapshot.child(`users`).val());
     }, function (errorObject) {
         res.send("The read failed: " + errorObject.code);
     });  
